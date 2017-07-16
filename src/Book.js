@@ -5,7 +5,9 @@ const Book = (props) => (
         <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${props.book.imageLinks.smallThumbnail})` }}></div>
             <div className="book-shelf-changer">
-                <select>
+                <select onChange={(e) => {
+                    props.updateBook(props.book, e.target.value);
+                }}>
                     <option value="none" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
@@ -16,8 +18,8 @@ const Book = (props) => (
         </div>
         <div className="book-title">{props.book.title}</div>
         <div className="book-authors">
-            {props.book.authors.map((author) => (
-                <span>{author}</span>
+            {props.book.authors.map((author, index) => (
+                <span key={index}>{author}</span>
             ))}
         </div>
     </div>
