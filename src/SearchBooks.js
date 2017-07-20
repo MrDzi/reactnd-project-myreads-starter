@@ -21,19 +21,26 @@ class SearchBooks extends React.Component {
     }
     handleSearchChange(value) {
         this.setState({ query: value });
-        BooksAPI.search(value).then((books) => {
-            console.log(books);
-            this.setState({ books });
+        if (!value) {
+            this.setState({ books: [] });
+            return;
+        };
+        searchBooks(value).then((response) => {
+            response.error && !response.items.length ? this.setState({ books: [] }) : this.setState({ books: response });
         });
     }
     render() {
         return (
             <div className="search-books">
                 <SearchBooksBar query={this.state.query} handleSearchChange={this.handleSearchChange} />
-                <SearchBooksResults books={this.state.books} />
+                <SearchBooksResults books={this.state.books} updateBook={this.updateBook} />
             </div>
         )
     }
+}
+
+function searchBooks(value) {
+    return BooksAPI.search(value);
 }
 
 export default SearchBooks;

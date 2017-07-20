@@ -36,7 +36,9 @@ class ListBooks extends React.Component {
                     <BookShelf title="Want To Read" updateBook={this.updateBook} books={this.state.books.filter(book => book.shelf === 'wantToRead')} />
                     <BookShelf title="Read" updateBook={this.updateBook} books={this.state.books.filter(book => book.shelf === 'read')} />
                 </div>
-                <Link className="open-search" to="/search">Add a book</Link>
+                <div className="open-search">
+                    <Link className="open-search" to="/search">Add a book</Link>
+                </div>
             </div>
         )
     }

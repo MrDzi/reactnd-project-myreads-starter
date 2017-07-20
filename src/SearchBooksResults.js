@@ -4,9 +4,9 @@ import Book from './Book'
 const SearchBooksResults = (props) => (
     <div className="search-books-results">
         <ol className="books-grid">
-            {props.books.map((book) => (
+            {props.books && props.books.map((book) => (
                 <li key={book.id}>
-                    <Book book={book} />
+                    <Book book={book} updateBook={props.updateBook} />
                 </li>
             ))}
         </ol>
