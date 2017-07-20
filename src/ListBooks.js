@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI'
-import BookShelf from './BookShelf'
-import _ from 'lodash'
+import * as BooksAPI from './BooksAPI';
+import BookShelf from './BookShelf';
+import _ from 'lodash';
 
 class ListBooks extends React.Component {
     constructor() {

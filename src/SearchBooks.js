@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI'
-import SearchBooksBar from './SearchBooksBar'
-import SearchBooksResults from './SearchBooksResults'
-import _ from 'lodash'
+import * as BooksAPI from './BooksAPI';
+import SearchBooksBar from './SearchBooksBar';
+import SearchBooksResults from './SearchBooksResults';
+import _ from 'lodash';
 
 class SearchBooks extends React.Component {
     constructor() {
         super();
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.searchBooksTimeout = null;
     }
     state = {
         query: '',
@@ -25,8 +25,18 @@ class SearchBooks extends React.Component {
             this.setState({ books: [] });
             return;
         };
-        searchBooks(value).then((response) => {
+        if (this.searchBooksTimeout) {
+
+        }
+        if (this.searchBooksTimeout) {
+            clearInterval(this.searchBooksTimeout);
+        }
+        this.searchBooksTimeout = setTimeout(this.searchBooks.bind(this, value), 500);
+    }
+    searchBooks(value) {
+        BooksAPI.search(value).then((response) => {
             response.error && !response.items.length ? this.setState({ books: [] }) : this.setState({ books: response });
+            this.searchBooksTimeout = null;
         });
     }
     render() {
@@ -37,10 +47,6 @@ class SearchBooks extends React.Component {
             </div>
         )
     }
-}
-
-function searchBooks(value) {
-    return BooksAPI.search(value);
 }
 
 export default SearchBooks;
