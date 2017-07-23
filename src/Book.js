@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Shared stateless component that renders single book with its controls
 const Book = (props) => (
     <div className="book">
         <div className="book-top">

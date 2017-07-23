@@ -4,6 +4,7 @@ import SearchBooksBar from './SearchBooksBar';
 import SearchBooksResults from './SearchBooksResults';
 import _ from 'lodash';
 
+// Search books statefull component - renders search bar and search results stateless components
 class SearchBooks extends React.Component {
     constructor() {
         super();
@@ -12,38 +13,37 @@ class SearchBooks extends React.Component {
     }
     state = {
         query: '',
-        books: []
+        filteredBooks: [],
+        userSearched: null
     }
-    updateBook(book, shelf) {
-        BooksAPI.update(book, shelf).then((response) => {
-            console.log(response);
-        });
-    }
+    // handling user input change, setting the query to the state and debouncing API call
     handleSearchChange(value) {
         this.setState({ query: value });
         if (!value) {
-            this.setState({ books: [] });
+            this.setState({ filteredBooks: [] });
             return;
         };
         if (this.searchBooksTimeout) {
-
-        }
-        if (this.searchBooksTimeout) {
             clearInterval(this.searchBooksTimeout);
-        }
+        };
         this.searchBooksTimeout = setTimeout(this.searchBooks.bind(this, value), 500);
     }
     searchBooks(value) {
         BooksAPI.search(value).then((response) => {
-            response.error && !response.items.length ? this.setState({ books: [] }) : this.setState({ books: response });
+            console.log(response);
+            response.error && !response.items.length ? this.setState({ filteredBooks: [] }) : this.setState({ filteredBooks: response });
             this.searchBooksTimeout = null;
+            // setting userSearched flag to true to display 'no results' to the user (if there is no results)
+            if (!this.state.userSearched) {
+                this.setState({ userSearched: true });
+            }
         });
     }
     render() {
         return (
             <div className="search-books">
                 <SearchBooksBar query={this.state.query} handleSearchChange={this.handleSearchChange} />
-                <SearchBooksResults books={this.state.books} updateBook={this.updateBook} />
+                <SearchBooksResults books={this.state.filteredBooks} updateBook={this.props.updateBook} userSearched={this.state.userSearched} />
             </div>
         )
     }

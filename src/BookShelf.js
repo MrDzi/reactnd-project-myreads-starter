@@ -1,6 +1,7 @@
 import React from 'react';
 import Book from './Book';
 
+// Bookshelf stateless component, renders the title and the books
 const BookShelf = (props) => (
     <div className="bookshelf">
         <h2 className="bookshelf-title">{props.title}</h2>
