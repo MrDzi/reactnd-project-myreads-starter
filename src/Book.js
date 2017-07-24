@@ -4,7 +4,7 @@ import React from 'react';
 const Book = (props) => (
     <div className="book">
         <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${props.book.imageLinks.smallThumbnail})` }}></div>
+            {props.book.imageLinks && <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${props.book.imageLinks.smallThumbnail})` }}></div>}
             <div className="book-shelf-changer">
                 <select defaultValue={ props.book.shelf } onChange={(e) => {
                     props.updateBook(props.book, e.target.value);
