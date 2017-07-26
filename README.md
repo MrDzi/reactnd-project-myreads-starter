@@ -1,3 +1,5 @@
+# My Reads
+
 This project is a part of React nanodegree course on Udacity.com
 
 ## Running the application
