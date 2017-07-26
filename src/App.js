@@ -19,7 +19,6 @@ class BooksApp extends React.Component {
     // getting all the books initially
     componentDidMount() {
         BooksAPI.getAll().then((response) => {
-            console.log(response);
             this.setState({ books: response });
         });
     }
@@ -47,7 +46,7 @@ class BooksApp extends React.Component {
                     <ListBooks books={this.state.books} updateBook={this.updateBook} />
                 )} />
                 <Route path="/search" render={() => (
-                    <SearchBooks filteredBooks={this.state.filteredBooks} updateBook={this.updateBook} />
+                    <SearchBooks books={this.state.books} updateBook={this.updateBook} />
                 )} />
             </div>
         )

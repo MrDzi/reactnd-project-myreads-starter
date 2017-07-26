@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const SearchBooksBar = (props) => (
     <div className="search-books-bar">
@@ -9,5 +10,10 @@ const SearchBooksBar = (props) => (
         </div>
     </div>
 );
+
+SearchBooksBar.propTypes = {
+    query: PropTypes.string.isRequired,
+    handleSearchChange: PropTypes.func.isRequired
+};
 
 export default SearchBooksBar;

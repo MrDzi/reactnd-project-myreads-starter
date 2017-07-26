@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import BookShelf from './BookShelf';
 
 // this is functional component that renders 3 book shelves. Books are filtered and passed down
@@ -19,6 +20,11 @@ function ListBooks(props) {
             </div>
         </div>
     )
+}
+
+ListBooks.propTypes = {
+    books: PropTypes.array.isRequired,
+    updateBook: PropTypes.func.isRequired
 }
 
 export default ListBooks;

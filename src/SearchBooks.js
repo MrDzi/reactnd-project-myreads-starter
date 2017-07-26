@@ -1,11 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as BooksAPI from './BooksAPI';
+import * as Utils from './Utils';
 import SearchBooksBar from './SearchBooksBar';
 import SearchBooksResults from './SearchBooksResults';
-import _ from 'lodash';
 
 // Search books statefull component - renders search bar and search results stateless components
 class SearchBooks extends React.Component {
+    static propTypes = {
+        books: PropTypes.array.isRequired,
+        updateBook: PropTypes.func.isRequired
+    }
     constructor() {
         super();
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -14,7 +19,7 @@ class SearchBooks extends React.Component {
     state = {
         query: '',
         filteredBooks: [],
-        userSearched: null
+        userSearched: false
     }
     // handling user input change, setting the query to the state and debouncing API call
     handleSearchChange(value) {
@@ -30,8 +35,15 @@ class SearchBooks extends React.Component {
     }
     searchBooks(value) {
         BooksAPI.search(value).then((response) => {
-            console.log(response);
-            response.error && !response.items.length ? this.setState({ filteredBooks: [] }) : this.setState({ filteredBooks: response });
+            if (response.error && !response.items.length) {
+                this.setState({ filteredBooks: [] });
+            } else {
+                // update the given data with the proper shelf values
+                for (let item of response) {
+                    Utils.updateItem(item, this.props.books, 'shelf');
+                }
+                this.setState({ filteredBooks: response });
+            }
             this.searchBooksTimeout = null;
             // setting userSearched flag to true to display 'no results' to the user (if there is no results)
             if (!this.state.userSearched) {
